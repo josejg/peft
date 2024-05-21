@@ -216,6 +216,8 @@ class LoraLayer(BaseTunerLayer):
         self.get_base_layer().weight.data = qweight
 
     def _get_weight_norm(self, weight, lora_weight, scaling) -> torch.Tensor:
+        import torch; torch.__repr__ = lambda x: f't<{",".join([str(i) for i in x.shape])}|{x.dtype}>'
+        print(locals())
         # calculate L2 norm of weight matrix, column-wise
         weight = transpose(weight, self.fan_in_fan_out)
         weight = weight + scaling * lora_weight
@@ -258,6 +260,8 @@ class LoraLayer(BaseTunerLayer):
         return value
 
     def _apply_dora(self, x, lora_A, lora_B, scaling, active_adapter):
+        import torch; torch.__repr__ = lambda x: f't<{",".join([str(i) for i in x.shape])}|{x.dtype}>'
+        print(locals())
         """
         For DoRA, calculate the extra output from LoRA with DoRA applied. This should be added on top of the base layer
         output.
